@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Essany Industry Pages</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a dispatch-board site map — hub at top, industry "bays" in a grid, each opening to its page spec */
+:root{
+  --bg:#f3f4f6; --panel:#ffffff; --ink:#16202c; --muted:#5b6675; --line:#d6dbe2;
+  --accent:#d1501f; --accent-ink:#ffffff; --chip:#eef1f5; --opt:#7a6a2e; --opt-bg:#f6f0dc;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"Source Sans 3",Arial,Helvetica,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f151c; --panel:#17202a; --ink:#e7ebf0; --muted:#9aa6b4; --line:#2a3644;
+  --accent:#ef7444; --accent-ink:#10161c; --chip:#1f2a36; --opt:#d9c27a; --opt-bg:#2b2716; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f151c; --panel:#17202a; --ink:#e7ebf0; --muted:#9aa6b4; --line:#2a3644;
+  --accent:#ef7444; --accent-ink:#10161c; --chip:#1f2a36; --opt:#d9c27a; --opt-bg:#2b2716; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding-block:32px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(34px,5vw,52px);font-weight:700;line-height:1.02}
+h2{font-size:28px;font-weight:600;margin-bottom:12px}
+h3{font-size:22px;font-weight:600;line-height:1.1}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+p{margin:0}
+.lede{max-width:68ch;color:var(--muted);font-size:17px;margin-top:12px}
+header{display:grid;gap:20px;grid-template-columns:1fr auto;align-items:end;border-bottom:2px solid var(--ink);padding-bottom:20px}
+.stats{display:flex;gap:28px;font-variant-numeric:tabular-nums}
+.stat b{display:block;font-family:var(--display);font-size:40px;line-height:1;font-weight:700}
+.stat span{font-size:13px;color:var(--muted)}
+@media (max-width:720px){header{grid-template-columns:1fr}}
+section{margin-top:44px}
+.hub{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:18px}
+.node{font-family:var(--mono);font-size:13px;background:var(--ink);color:var(--bg);padding:6px 10px;border-radius:4px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.filters button{font:600 13px var(--body);border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.filters button:focus-visible,.bay:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+@media (max-width:420px){.grid{grid-template-columns:1fr}}
+.bay{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--ink);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.bay.optional{border-top-color:var(--opt)}
+.bay[aria-expanded="true"]{border-top-color:var(--accent)}
+.bayhead{display:flex;justify-content:space-between;gap:10px;align-items:start}
+.tag{font-family:var(--mono);font-size:11px;padding:2px 7px;border-radius:3px;background:var(--chip);color:var(--muted);white-space:nowrap}
+.optional .tag{background:var(--opt-bg);color:var(--opt)}
+.url{font-family:var(--mono);font-size:12.5px;color:var(--accent);word-break:break-all}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:13px;background:var(--chip);padding:3px 9px;border-radius:4px}
+.angle{font-size:14px;color:var(--muted)}
+.detail{border-top:1px dashed var(--line);padding-top:10px;display:grid;gap:8px;font-size:14px}
+.detail dt{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.detail dd{margin:0}
+.more{font-size:13px;font-weight:600;color:var(--accent)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px;min-width:0}
+ol.steps{margin:8px 0 0;padding-left:20px;display:grid;gap:6px}
+ul.plain{margin:8px 0 0;padding-left:18px;display:grid;gap:6px}
+.anat{display:grid;gap:8px;margin-top:8px}
+.anat div{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.anat .n{font-family:var(--display);font-size:22px;font-weight:700;color:var(--accent);line-height:1}
+.example{font-family:var(--mono);font-size:12.5px;background:var(--chip);padding:8px 10px;border-radius:4px;margin-top:10px;overflow-x:auto;white-space:nowrap}
+.note{font-size:13px;color:var(--muted);margin-top:10px}
+footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.bay{transition:border-color .15s}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <div>
+    <div class="eyebrow">Essany Marketing · Industry pages plan</div>
+    <h1>Industry pages site map</h1>
+    <p class="lede">One page per target industry so companies searching "senior living marketing agency" or "truck dealer marketing" land on a page written for them. Segment sub-pages go deeper where buyers differ. Click any industry to see its URL, keywords and money angle.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>7</b><span>core industries</span></div>
+    <div class="stat"><b>2</b><span>optional, later</span></div>
+    <div class="stat"><b id="subcount">30</b><span>segment sub-pages</span></div>
+  </div>
+</header>
+
+<section aria-labelledby="map">
+  <div class="hub">
+    <span class="node">essanymarketing.com/industries/</span>
+    <span class="eyebrow">hub page listing every industry</span>
+    <div class="filters" role="group" aria-label="Filter industries">
+      <button id="f-all" data-f="all" aria-pressed="true">All 9</button>
+      <button id="f-core" data-f="core" aria-pressed="false">Core 7</button>
+      <button id="f-opt" data-f="optional" aria-pressed="false">Optional 2</button>
+    </div>
+  </div>
+  <h2 id="map" class="eyebrow" style="font-family:var(--mono);font-size:12px;font-weight:400">Industry pages and their sub-pages</h2>
+  <div class="grid" id="grid"></div>
+  <p class="note">Keywords are suggested targets based on how buyers usually search. Search volume and difficulty have not been checked yet.</p>
+</section>
+
+<section aria-labelledby="anat">
+  <h2 id="anat">What every industry page includes</h2>
+  <div class="cols">
+    <div class="panel">
+      <div class="anat">
+        <div><span class="n">1</span><p><b>Their money problem, in their numbers.</b> Referral fees for senior living, unused co-op funds for equipment dealers, slow lead response for marine.</p></div>
+        <div><span class="n">2</span><p><b>Our services for that industry.</b> What we do for them and what changes.</p></div>
+        <div><span class="n">3</span><p><b>Proof.</b> Case studies, results and client logos as we win clients in each industry.</p></div>
+        <div><span class="n">4</span><p><b>Industry FAQs.</b> Real buyer questions; also helps AI search and answer engines.</p></div>
+        <div><span class="n">5</span><p><b>One clear call to action.</b> For example a free website and tracking audit.</p></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Segment sub-pages</h3>
+      <p style="margin-top:8px">Same layout as the industry page, but written for one buyer group. Memory care families, messaging and rules differ from independent living; a crane dealer sells differently from a farm equipment dealer.</p>
+      <div class="example">/industries/senior-living-marketing/memory-care/</div>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="loc">
+  <h2 id="loc">Location pages: later, and only with proof</h2>
+  <div class="cols">
+    <div class="panel">
+      <ul class="plain">
+        <li>These are national B2B niches. Searches like "senior living marketing agency Texas" exist but are small.</li>
+        <li>Add a state or city page only where we have a client, a case study or real local knowledge (state senior-living rules, major dealer markets).</li>
+        <li>Google treats near-identical city and state pages as doorway pages, which can hurt the whole site. Every location page needs unique content.</li>
+      </ul>
+      <div class="example">/industries/senior-living-marketing/texas/</div>
+    </div>
+    <div class="panel">
+      <h3>Build order</h3>
+      <ol class="steps">
+        <li>Check keyword volume and difficulty for every page.</li>
+        <li>Build the /industries/ hub and the 7 core industry pages.</li>
+        <li>Add segment sub-pages, starting with the industries we pitch first.</li>
+        <li>Add case studies as clients come in, then location pages where proof exists.</li>
+        <li>Decide on the 2 optional industries after the core pages are live.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<footer>Prepared October 27, 2026. Money angles come from the first- and second-wave industry research reports.</footer>
+</div>
+
+<script>
+const D=[
+ {t:"core",n:"Senior living",u:"/industries/senior-living-marketing/",k:"senior living marketing agency",s:"assisted living marketing, memory care marketing, senior care growth agency, senior living lead generation",sub:["Assisted living","Memory care","Independent living","CCRCs"],a:"Referral services take about one month's rent (~$6,200) per move-in: an estimated $270k–530k a year for a 10-community operator.",who:"Regional operators with 8–30 communities"},
+ {t:"core",n:"Heavy equipment dealers",u:"/industries/heavy-equipment-dealer-marketing/",k:"heavy equipment dealer marketing",s:"construction equipment marketing, ag equipment dealer marketing, equipment rental marketing",sub:["Construction equipment dealers","Ag/farm equipment dealers","Equipment rental companies","Crane dealers"],a:"Manufacturer co-op funds go unspent (~$30k per dealer at one manufacturer), and 20% of dealers never answered a web inquiry in one study.",who:"Groups of 8–25+ stores"},
+ {t:"core",n:"Truck and trailer dealers",u:"/industries/truck-dealer-marketing/",k:"truck dealership marketing agency",s:"commercial truck dealer marketing, trailer dealer marketing, fleet sales lead generation",sub:["Class 8 truck dealers","Trailer dealers","Truck parts and service"],a:"About $167k per new truck, and parts and service make up ~82% of a dealer's gross profit.",who:"Groups of 8–40 rooftops"},
+ {t:"core",n:"Commercial HVAC and roofing",u:"/industries/hvac-roofing-contractor-marketing/",k:"commercial HVAC marketing agency",s:"commercial roofing marketing, mechanical contractor marketing, service agreement lead generation",sub:["Commercial HVAC / mechanical","Commercial roofing","Fire protection / sprinkler"],a:"Recurring maintenance agreements are where value compounds; none of six audited contractor sites had a service request form.",who:"$50M+ firms with a service division"},
+ {t:"core",n:"Marine dealers and yacht brokers",u:"/industries/marine-dealer-marketing/",k:"boat dealer marketing agency",s:"yacht broker marketing, marine dealer lead generation, yacht sales marketing",sub:["Boat dealers","Yacht dealers","Yacht brokerages","Marine service and storage"],a:"About $93k per new boat ($339k at large yacht dealers); only 19% of mystery-shop calls led to an appointment vs 92% at car dealers.",who:"Groups of 5–20 stores and yacht sellers"},
+ {t:"core",n:"Industrial manufacturers",u:"/industries/industrial-manufacturer-marketing/",k:"industrial manufacturing marketing agency",s:"B2B manufacturer marketing, machinery manufacturer marketing, RFQ lead generation",sub:["Machinery manufacturers","Industrial components","Custom fabrication"],a:"64% of manufacturers struggle to attribute marketing ROI, while 85% of buyers research supplier websites before big purchases.",who:"$50M–500M revenue"},
+ {t:"core",n:"Metal and modular buildings",u:"/industries/metal-building-marketing/",k:"metal building marketing",s:"steel building manufacturer marketing, modular construction marketing, prefab building lead generation",sub:["Metal building manufacturers","Modular builders","Steel building dealers / builders"],a:"The average commercial modular project is about $7.85M; one extra project pays for years of marketing.",who:"$25M–300M, 2–40 locations"},
+ {t:"optional",n:"RV dealers",u:"/industries/rv-dealer-marketing/",k:"RV dealer marketing agency",s:"RV dealership advertising, RV lead generation",sub:["Motorhome dealers","Towable dealers","RV rental"],a:"54% of shoppers browse after hours and ad costs rose 14%, but 2026 shipments are forecast down about 8%.",who:"Groups of 5–15 stores"},
+ {t:"optional",n:"Private aviation",u:"/industries/aviation-marketing/",k:"private aviation marketing agency",s:"charter marketing, aircraft sales marketing, FBO marketing",sub:["Charter operators","Aircraft brokers","FBO / MRO"],a:"A charter trip is ~$20k–36k and a broker earns ~$90k per jet sale; ad copy must follow FAA and DOT charter rules.",who:"Multi-base operators and jet brokers"}
+];
+const grid=document.getElementById('grid');
+D.forEach((d,i)=>{
+  const b=document.createElement('button');
+  b.className='bay'+(d.t==='optional'?' optional':'');b.id='bay-'+i;b.dataset.t=d.t;b.setAttribute('aria-expanded','false');
+  b.innerHTML=`<div class="bayhead"><h3>${d.n}</h3><span class="tag">${d.t==='core'?'Core':'Optional'} · ${d.sub.length} sub-pages</span></div>
+  <div class="url">${d.u}</div>
+  <div class="chips">${d.sub.map(s=>`<span class="chip">${s}</span>`).join('')}</div>
+  <p class="angle">${d.a}</p>
+  <dl class="detail" hidden>
+   <div><dt>Primary keyword</dt><dd>${d.k}</dd></div>
+   <div><dt>Secondary keywords</dt><dd>${d.s}</dd></div>
+   <div><dt>Best-fit clients</dt><dd>${d.who}</dd></div>
+  </dl>
+  <span class="more">Show keywords</span>`;
+  b.addEventListener('click',()=>{const open=b.getAttribute('aria-expanded')==='true';b.setAttribute('aria-expanded',String(!open));b.querySelector('.detail').hidden=open;b.querySelector('.more').textContent=open?'Show keywords':'Hide keywords';});
+  grid.appendChild(b);
+});
+document.querySelectorAll('.filters button').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.filters button').forEach(x=>x.setAttribute('aria-pressed',String(x===btn)));
+  const f=btn.dataset.f;let n=0;
+  document.querySelectorAll('.bay').forEach(el=>{const show=f==='all'||el.dataset.t===f;el.hidden=!show;if(show)n+=D[+el.id.split('-')[1]].sub.length;});
+  document.getElementById('subcount').textContent=n;
+}));
+</script>
+</body>
+</html>
